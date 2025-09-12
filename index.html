@@ -225,8 +225,18 @@
                 padding: 15px;
             }
             
+            .container::before,
+            .container::after {
+                display: none;
+            }
+            
             .info-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .names::before,
+            .names::after {
+                display: none;
             }
         }
 

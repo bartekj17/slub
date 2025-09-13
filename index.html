@@ -1,10 +1,10 @@
-```html
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paulina & Bartek - 20 września 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -17,7 +17,7 @@
             min-height: 100vh;
             color: #2c3e50;
             overflow-x: hidden;
-            background-color: #ffffff; /* Fallback kolor, jeśli obraz nie załaduje */
+            background-color: #ffffff;
         }
 
         .intro-container {
@@ -26,22 +26,42 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('./Intro.png'); /* Dodane ./ dla relatywnej ścieżki */
+            background-image: url('./Intro.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-color: #f0f0f0; /* Fallback jeśli obraz nie załaduje */
+            background-color: #f0f0f0;
             z-index: 100;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
+        .intro-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: -1;
+        }
+
+        .intro-overlay-text {
+            font-size: 2rem;
+            color: #2c5530;
+            font-style: italic;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
         .intro-container.hidden {
             opacity: 0;
             pointer-events: none;
-            visibility: hidden; /* Dodane dla pewności ukrycia */
+            visibility: hidden;
         }
 
         .intro-button {
@@ -55,11 +75,23 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: fadeInButton 1.5s ease-in-out;
         }
 
         .intro-button:hover {
             transform: scale(1.05);
             background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+        }
+
+        @keyframes fadeInButton {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .content-container {
@@ -68,11 +100,11 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url('./Background.png'); /* Dodane ./ dla relatywnej ścieżki */
+            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('./Background.png');
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            background-color: #f5f1e8; /* Fallback jeśli obraz nie załaduje */
+            background-color: #f5f1e8;
             opacity: 0;
             transform: scale(0.8) translateY(50px);
             transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -146,6 +178,15 @@
             border: 1px solid rgba(255,255,255,0.2);
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .info-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .info-card:nth-child(2) {
+            animation-delay: 0.4s;
         }
 
         .info-card:hover {
@@ -413,16 +454,19 @@
                 padding: 12px 24px;
                 font-size: 1rem;
             }
+
+            .intro-overlay-text {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Intro z Intro.png i przyciskiem -->
     <div class="intro-container" id="introContainer">
+        <div class="intro-overlay-text">Zaproszenie na ślub</div>
         <button class="intro-button" id="introButton">Otwórz zaproszenie</button>
     </div>
 
-    <!-- Content -->
     <div class="content-container" id="contentContainer">
         <div class="container">
             <div class="header">
@@ -431,7 +475,7 @@
             </div>
 
             <div class="reminder-text">
-                <strong>Przypomnienie:</strong> To już w ten weekend! 💕
+                <strong>Przypomnienie:</strong> Za tydzień świętujemy razem ten wyjątkowy dzień! 💕
             </div>
 
             <div class="countdown">
@@ -454,7 +498,7 @@
 
             <div class="info-grid">
                 <div class="info-card">
-                    <div class="card-icon">📅</div>
+                    <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
                     <h3 class="card-title">Data i godzina</h3>
                     <div class="card-content">
                         <p class="highlight">20 września 2025</p>
@@ -464,13 +508,13 @@
                 </div>
 
                 <div class="info-card">
-                    <div class="card-icon">🏰</div>
+                    <div class="card-icon"><i class="fas fa-map-marker-alt"></i></div>
                     <h3 class="card-title">Miejsce</h3>
                     <div class="card-content">
                         <p class="highlight">Hotel Pałac</p>
                         <p class="highlight">w Myślęcinku</p>
                         <a href="https://maps.google.com/?q=Hotel+Pałac+Myślęcinek" target="_blank" class="map-button">
-                            📍 Otwórz w Google Maps
+                            <i class="fas fa-map-marked-alt"></i> Otwórz w Google Maps
                         </a>
                     </div>
                 </div>
@@ -478,7 +522,7 @@
 
             <div class="parking-section">
                 <h3 class="parking-title" id="parkingTitle">
-                    🚗 Wskazówki dojazdu i parkowania
+                    <i class="fas fa-car"></i> Wskazówki dojazdu i parkowania
                     <span class="expand-icon">▼</span>
                 </h3>
                 <div class="parking-content" id="parkingContent">
@@ -538,22 +582,20 @@
     </div>
 
     <script>
-        // Intro animation z debugowaniem
         const introContainer = document.getElementById('introContainer');
         const introButton = document.getElementById('introButton');
         const contentContainer = document.getElementById('contentContainer');
 
         introButton.addEventListener('click', function() {
-            console.log('Przycisk kliknięty – ukrywam intro'); // Debug: sprawdź w konsoli
+            console.log('Przycisk kliknięty – ukrywam intro');
             introContainer.classList.add('hidden');
             
             setTimeout(() => {
-                console.log('Pokazuję treść'); // Debug
+                console.log('Pokazuję treść');
                 contentContainer.classList.add('visible');
             }, 800);
         });
 
-        // Parking section toggle
         const parkingTitle = document.getElementById('parkingTitle');
         const parkingContent = document.getElementById('parkingContent');
 
@@ -562,7 +604,6 @@
             parkingContent.classList.toggle('expanded');
         });
 
-        // Countdown timer
         function updateCountdown() {
             const weddingDate = new Date('2025-09-20T15:00:00').getTime();
             const now = new Date().getTime();
@@ -582,8 +623,7 @@
         }
 
         updateCountdown();
-        setInterval(updateCountdown, 60000); // Update every minute
+        setInterval(updateCountdown, 60000);
     </script>
 </body>
 </html>
-```

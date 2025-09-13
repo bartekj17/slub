@@ -1,128 +1,665 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paulina & Bartek - 20 września 2025</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Georgia', serif;
-      background: #f5f1e8;
-      overflow-x: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paulina & Bartek - 20 września 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* Sekcja intro */
-    .intro-section {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #000;
-      z-index: 100;
-    }
+        body {
+            font-family: 'Georgia', serif;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="ivy" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M20,20 Q30,10 40,20 Q50,30 40,40 Q30,50 20,40 Q10,30 20,20 Z" fill="%23228B22" opacity="0.6"/><path d="M60,60 Q70,50 80,60 Q90,70 80,80 Q70,90 60,80 Q50,70 60,60 Z" fill="%2332CD32" opacity="0.4"/></pattern></defs><rect width="1200" height="800" fill="%23f5f1e8"/><rect width="1200" height="800" fill="url(%23ivy)"/></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
 
-    .intro-section img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.7;
-    }
+        /* Ivy border decoration */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,10 Q20,5 30,15 Q25,25 15,20 Q5,15 10,10 Z M70,20 Q80,15 90,25 Q85,35 75,30 Q65,25 70,20 Z" fill="%23228B22"/></svg>'),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,80 Q30,75 40,85 Q35,95 25,90 Q15,85 20,80 Z M60,70 Q70,65 80,75 Q75,85 65,80 Q55,75 60,70 Z" fill="%23228B22"/></svg>');
+            background-position: 0 0, 100% 100%;
+            background-repeat: repeat-y, repeat-y;
+            background-size: 50px 50px, 50px 50px;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    .intro-overlay {
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      color: white;
-      text-align: center;
-    }
+        .envelope-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            cursor: pointer;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
 
-    .open-button {
-      margin-top: 20px;
-      padding: 15px 40px;
-      background: rgba(44, 85, 48, 0.85);
-      border: 2px solid #fff;
-      border-radius: 30px;
-      font-size: 1.2rem;
-      color: #fff;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+        .envelope-container.opened {
+            transform: translate(-50%, -50%) scale(0.1);
+            opacity: 0;
+            pointer-events: none;
+        }
 
-    .open-button:hover {
-      background: rgba(44, 85, 48, 1);
-      transform: scale(1.05);
-    }
+        .marauders-map {
+            width: 500px;
+            height: 375px;
+            position: relative;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url('intro.png');
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+            border-radius: 10px;
+        }
 
-    /* Sekcja z treścią */
-    .content-container {
-      opacity: 0;
-      transform: scale(0.9) translateY(40px);
-      transition: all 0.8s ease;
-      padding: 20px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
+        /* Fallback dla przypadku gdy obraz się nie załaduje */
+        .marauders-map-fallback {
+            width: 500px;
+            height: 375px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
+            border: 3px solid #8b7355;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6d4c2a;
+            font-family: 'Georgia', serif;
+            text-align: center;
+            z-index: -1;
+        }
 
-    .content-container.visible {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
+        .interactive-diamond {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 100px;
+            height: 100px;
+            background: rgba(74, 51, 25, 0.85);
+            border: 2px solid #6d4c2a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                inset 0 2px 4px rgba(255,255,255,0.1),
+                0 4px 15px rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px);
+        }
 
-    .header {
-      text-align: center;
-      margin-top: 40px;
-      margin-bottom: 40px;
-    }
+        .interactive-diamond:hover {
+            transform: translate(-50%, -50%) rotate(45deg) scale(1.1);
+            background: rgba(94, 71, 45, 0.9);
+            box-shadow: 
+                inset 0 2px 4px rgba(255,255,255,0.2),
+                0 6px 20px rgba(0,0,0,0.6);
+        }
 
-    .names {
-      font-size: 2.8rem;
-      color: #2c5530;
-      margin-bottom: 10px;
-    }
+        .diamond-text {
+            transform: rotate(-45deg);
+            color: #f5f1e8;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            font-size: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            white-space: nowrap;
+            text-align: center;
+            font-weight: bold;
+        }
 
-    .subtitle {
-      font-size: 1.2rem;
-      font-style: italic;
-      color: #5a6c57;
-    }
-  </style>
+        .content-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
+            opacity: 0;
+            transform: scale(0.8) translateY(50px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow-y: auto;
+            z-index: 50;
+            padding: 20px;
+        }
+
+        .content-container.visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .names {
+            font-size: 2.8rem;
+            color: #2c5530;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #5a6c57;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .reminder-text {
+            font-size: 1.1rem;
+            color: #34495e;
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.4);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            color: #2c5530;
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #5a6c57;
+            padding-bottom: 10px;
+        }
+
+        .card-content {
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #2c5530;
+            font-size: 1.1rem;
+        }
+
+        .map-button {
+            display: inline-block;
+            background: #2c5530;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .map-button:hover {
+            background: #1a3d1f;
+            transform: scale(1.05);
+        }
+
+        .parking-section {
+            background: rgba(255,255,255,0.5);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .parking-title {
+            font-size: 1.5rem;
+            color: #2c5530;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #5a6c57;
+            padding-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .parking-title.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .parking-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .parking-content.expanded {
+            max-height: 2000px;
+        }
+
+        .parking-steps {
+            list-style: none;
+            counter-reset: step-counter;
+            margin-top: 20px;
+        }
+
+        .parking-steps li {
+            counter-increment: step-counter;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 8px;
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .parking-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #2c5530;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .photo-item {
+            background: rgba(255,255,255,0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(45deg, #e8dcc0, #d4c4a0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b7355;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .contact-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .contact-card {
+            background: rgba(255,255,255,0.4);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .contact-name {
+            font-size: 1.2rem;
+            color: #2c5530;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .contact-phone {
+            font-size: 1.1rem;
+            color: #34495e;
+        }
+
+        .countdown {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(44, 85, 48, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(44, 85, 48, 0.2);
+        }
+
+        .countdown-title {
+            font-size: 1.3rem;
+            color: #2c5530;
+            margin-bottom: 15px;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .time-unit {
+            text-align: center;
+            background: rgba(255,255,255,0.5);
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 80px;
+        }
+
+        .time-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c5530;
+            display: block;
+        }
+
+        .time-label {
+            font-size: 0.9rem;
+            color: #5a6c57;
+            text-transform: uppercase;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #5a6c57;
+            font-style: italic;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .marauders-map {
+                width: 350px;
+                height: 262px;
+            }
+
+            .interactive-diamond {
+                width: 80px;
+                height: 80px;
+            }
+
+            .diamond-text {
+                font-size: 0.85rem;
+            }
+
+            .names {
+                font-size: 2.2rem;
+            }
+            
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .countdown-timer {
+                gap: 10px;
+            }
+
+            .time-unit {
+                min-width: 70px;
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Sekcja intro -->
-  <div class="intro-section" id="introSection">
-    <img src="Intro.png" alt="Intro zaproszenia">
-    <div class="intro-overlay">
-      <h1>Paulina & Bartek</h1>
-      <button class="open-button" id="openButton">Otwórz</button>
+    <!-- Marauder's Map -->
+    <div class="envelope-container" id="envelopeContainer">
+        <div class="marauders-map">
+            <div class="marauders-map-fallback">
+                <div>
+                    <strong>Obraz mapy się ładuje...</strong><br>
+                    <small>Upewnij się, że plik 'intro.png' jest w folderze</small>
+                </div>
+            </div>
+            <div class="interactive-diamond" id="diamond">
+                <div class="diamond-text">Bawmy się</div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Sekcja treści -->
-  <div class="content-container" id="contentContainer">
-    <div class="header">
-      <h1 class="names">Paulina & Bartek</h1>
-      <p class="subtitle">serdecznie zapraszają na swój ślub i wesele</p>
+    <!-- Content -->
+    <div class="content-container" id="contentContainer">
+        <div class="container">
+            <div class="header">
+                <h1 class="names">Paulina & Bartek</h1>
+                <p class="subtitle">serdecznie zapraszają na swój ślub i wesele</p>
+            </div>
+
+            <div class="reminder-text">
+                <strong>Przypomnienie:</strong> Za tydzień świętujemy razem ten wyjątkowy dzień! 💕
+            </div>
+
+            <div class="countdown">
+                <div class="countdown-title">Do ślubu pozostało:</div>
+                <div class="countdown-timer" id="countdown">
+                    <div class="time-unit">
+                        <span class="time-number" id="days">7</span>
+                        <span class="time-label">dni</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-number" id="hours">0</span>
+                        <span class="time-label">godzin</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-number" id="minutes">0</span>
+                        <span class="time-label">minut</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="card-icon">📅</div>
+                    <h3 class="card-title">Data i godzina</h3>
+                    <div class="card-content">
+                        <p class="highlight">20 września 2025</p>
+                        <p class="highlight">godz. 15:00</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem;">Sobota</p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">🏰</div>
+                    <h3 class="card-title">Miejsce</h3>
+                    <div class="card-content">
+                        <p class="highlight">Hotel Pałac</p>
+                        <p class="highlight">w Myślęcinku</p>
+                        <a href="https://maps.google.com/?q=Hotel+Pałac+Myślęcinek" target="_blank" class="map-button">
+                            📍 Otwórz w Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="parking-section">
+                <h3 class="parking-title" id="parkingTitle">
+                    🚗 Wskazówki dojazdu i parkowania
+                    <span class="expand-icon">▼</span>
+                </h3>
+                <div class="parking-content" id="parkingContent">
+                    <ol class="parking-steps">
+                        <li><strong>Dojazd:</strong> Kieruj się do Myślęcinka, następnie szukaj oznakowania Hotel Pałac</li>
+                        <li><strong>Skrzyżowanie:</strong> Na głównym skrzyżowaniu (jak na zdjęciu) skręć zgodnie ze znakami do hotelu</li>
+                        <li><strong>Parking:</strong> Parking hotelowy znajduje się bezpośrednio przy wjeździe do kompleksu</li>
+                        <li><strong>Miejsca:</strong> Dostępnych jest wystarczająco miejsc parkingowych dla wszystkich gości</li>
+                        <li><strong>Koszt:</strong> Parking bezpłatny dla gości weselnych</li>
+                    </ol>
+
+                    <div class="photos-grid">
+                        <div class="photo-item">
+                            <div class="photo-placeholder">
+                                📸 Zdjęcie skrzyżowania<br>
+                                (miejsce na zdjęcie wskazujące właściwy kierunek)
+                            </div>
+                        </div>
+                        <div class="photo-item">
+                            <div class="photo-placeholder">
+                                📸 Wjazd do hotelu<br>
+                                (zdjęcie bramy wjazdowej)
+                            </div>
+                        </div>
+                        <div class="photo-item">
+                            <div class="photo-placeholder">
+                                📸 Parking<br>
+                                (zdjęcie miejsca parkingowego)
+                            </div>
+                        </div>
+                        <div class="photo-item">
+                            <div class="photo-placeholder">
+                                📸 Wejście do hotelu<br>
+                                (zdjęcie głównego wejścia)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <div class="contact-card">
+                    <div class="contact-name">Paulina</div>
+                    <div class="contact-phone">695 041 876</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-name">Bartek</div>
+                    <div class="contact-phone">788 816 927</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                Nie możemy się doczekać świętowania razem z Wami! ❤️<br>
+                <em>Paulina & Bartek</em>
+            </div>
+        </div>
     </div>
 
-    <p style="text-align:center;">🎉 Tutaj cała zawartość weselna (info, mapa, parking itd.) 🎉</p>
-  </div>
+    <script>
+        // Map/envelope animation
+        const envelopeContainer = document.getElementById('envelopeContainer');
+        const contentContainer = document.getElementById('contentContainer');
 
-  <script>
-    const introSection = document.getElementById('introSection');
-    const contentContainer = document.getElementById('contentContainer');
-    const openButton = document.getElementById('openButton');
+        envelopeContainer.addEventListener('click', function() {
+            envelopeContainer.classList.add('opened');
+            
+            setTimeout(() => {
+                contentContainer.classList.add('visible');
+            }, 300);
+        });
 
-    openButton.addEventListener('click', () => {
-      introSection.style.display = 'none';
-      contentContainer.classList.add('visible');
-    });
-  </script>
+        // Parking section toggle
+        const parkingTitle = document.getElementById('parkingTitle');
+        const parkingContent = document.getElementById('parkingContent');
+
+        parkingTitle.addEventListener('click', function() {
+            parkingTitle.classList.toggle('expanded');
+            parkingContent.classList.toggle('expanded');
+        });
+
+        // Countdown timer
+        function updateCountdown() {
+            const weddingDate = new Date('2025-09-20T15:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('days').innerHTML = days;
+            document.getElementById('hours').innerHTML = hours;
+            document.getElementById('minutes').innerHTML = minutes;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = "🎉 Dziś jest ten dzień! 🎉";
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // Update every minute
+    </script>
 </body>
 </html>

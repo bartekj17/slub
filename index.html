@@ -1,10 +1,3 @@
-Jestem w trakcie tworzenia prostej strony internetowej w github, która ma służyć informowaniu gościom weselnym o szczegółach.
-Stworzyłem dwa pliki "Background.png" oraz "Intro.png".
-Chciałbym, by Intro.png pojawiło się jako pierwsze, z przciskiem na środku. 
-Pojawia się potem cała treść, a jego tłem ma być "Background.png".
-Jak to zrobić?
-Kod:
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -20,131 +13,52 @@ Kod:
 
         body {
             font-family: 'Georgia', serif;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="ivy" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M20,20 Q30,10 40,20 Q50,30 40,40 Q30,50 20,40 Q10,30 20,20 Z" fill="%23228B22" opacity="0.6"/><path d="M60,60 Q70,50 80,60 Q90,70 80,80 Q70,90 60,80 Q50,70 60,60 Z" fill="%2332CD32" opacity="0.4"/></pattern></defs><rect width="1200" height="800" fill="%23f5f1e8"/><rect width="1200" height="800" fill="url(%23ivy)"/></svg>');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
             min-height: 100vh;
             color: #2c3e50;
             overflow-x: hidden;
         }
 
-        /* Ivy border decoration */
-        body::before {
-            content: '';
+        /* Usuń ivy border jeśli nie jest potrzebny z nowymi obrazami */
+        /* body::before { ... } - skomentowane lub usunięte */
+
+        .intro-container {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,10 Q20,5 30,15 Q25,25 15,20 Q5,15 10,10 Z M70,20 Q80,15 90,25 Q85,35 75,30 Q65,25 70,20 Z" fill="%23228B22"/></svg>'),
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,80 Q30,75 40,85 Q35,95 25,90 Q15,85 20,80 Z M60,70 Q70,65 80,75 Q75,85 65,80 Q55,75 60,70 Z" fill="%23228B22"/></svg>');
-            background-position: 0 0, 100% 100%;
-            background-repeat: repeat-y, repeat-y;
-            background-size: 50px 50px, 50px 50px;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .envelope-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background-image: url('Intro.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             z-index: 100;
-            perspective: 1000px;
-            cursor: pointer;
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .envelope-container.opened {
-            transform: translate(-50%, -50%) scale(0.1);
+        .intro-container.hidden {
             opacity: 0;
             pointer-events: none;
         }
 
-        .envelope {
-            width: 300px;
-            height: 200px;
-            position: relative;
-            transform-style: preserve-3d;
-        }
-
-        .envelope-base {
-            width: 100%;
-            height: 100%;
+        .intro-button {
+            padding: 15px 30px;
             background: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
             border: 2px solid #8b7355;
-            border-radius: 5px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            position: relative;
-        }
-
-        .envelope-flap {
-            width: 300px;
-            height: 150px;
-            background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
-            border: 2px solid #8b7355;
-            border-bottom: none;
-            position: absolute;
-            top: -75px;
-            left: -2px;
-            transform-origin: bottom center;
-            clip-path: polygon(0 100%, 50% 0, 100% 100%);
-            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 2;
-        }
-
-        .envelope:hover .envelope-flap {
-            transform: rotateX(-20deg);
-        }
-
-        .wax-seal {
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #8B0000 0%, #5C0000 100%);
-            border-radius: 50%;
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(139,0,0,0.5);
-            transition: all 0.3s ease;
-        }
-
-        .wax-seal:hover {
-            transform: translateX(-50%) scale(1.1);
-        }
-
-        .wax-seal::before {
-            content: '💕';
-            font-size: 1.5rem;
-            color: gold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
-
-        .envelope-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #8b7355;
-            font-style: italic;
-        }
-
-        .envelope-names {
+            border-radius: 25px;
+            color: #2c5530;
             font-size: 1.2rem;
-            margin-bottom: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        .envelope-date {
-            font-size: 0.9rem;
+        .intro-button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
         }
 
         .content-container {
@@ -153,7 +67,10 @@ Kod:
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
+            background-image: url('Background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             opacity: 0;
             transform: scale(0.8) translateY(50px);
             transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -468,16 +385,6 @@ Kod:
         }
 
         @media (max-width: 600px) {
-            .envelope {
-                width: 250px;
-                height: 166px;
-            }
-
-            .envelope-flap {
-                width: 250px;
-                height: 125px;
-            }
-
             .names {
                 font-size: 2.2rem;
             }
@@ -499,22 +406,18 @@ Kod:
                 min-width: 70px;
                 padding: 10px;
             }
+
+            .intro-button {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Envelope -->
-    <div class="envelope-container" id="envelopeContainer">
-        <div class="envelope">
-            <div class="envelope-base">
-                <div class="envelope-text">
-                    <div class="envelope-names">Paulina & Bartek</div>
-                    <div class="envelope-date">20 września 2025</div>
-                </div>
-            </div>
-            <div class="envelope-flap"></div>
-            <div class="wax-seal"></div>
-        </div>
+    <!-- Intro z Intro.png i przyciskiem -->
+    <div class="intro-container" id="introContainer">
+        <button class="intro-button" id="introButton">Otwórz zaproszenie</button>
     </div>
 
     <!-- Content -->
@@ -633,12 +536,13 @@ Kod:
     </div>
 
     <script>
-        // Envelope animation
-        const envelopeContainer = document.getElementById('envelopeContainer');
+        // Intro animation
+        const introContainer = document.getElementById('introContainer');
+        const introButton = document.getElementById('introButton');
         const contentContainer = document.getElementById('contentContainer');
 
-        envelopeContainer.addEventListener('click', function() {
-            envelopeContainer.classList.add('opened');
+        introButton.addEventListener('click', function() {
+            introContainer.classList.add('hidden');
             
             setTimeout(() => {
                 contentContainer.classList.add('visible');

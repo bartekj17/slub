@@ -46,6 +46,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 100;
+            perspective: 1000px;
             cursor: pointer;
             transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -56,75 +57,87 @@
             pointer-events: none;
         }
 
-        .marauders-map {
-            width: 500px;
-            height: 375px;
+        .envelope {
+            width: 300px;
+            height: 200px;
             position: relative;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-image: url('intro.png');
-            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
-            border-radius: 10px;
+            transform-style: preserve-3d;
         }
 
-        /* Fallback dla przypadku gdy obraz się nie załaduje */
-        .marauders-map-fallback {
-            width: 500px;
-            height: 375px;
+        .envelope-base {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
+            border: 2px solid #8b7355;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .envelope-flap {
+            width: 300px;
+            height: 150px;
+            background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+            border: 2px solid #8b7355;
+            border-bottom: none;
             position: absolute;
-            top: 0;
-            left: 0;
-            background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
-            border: 3px solid #8b7355;
-            border-radius: 10px;
+            top: -75px;
+            left: -2px;
+            transform-origin: bottom center;
+            clip-path: polygon(0 100%, 50% 0, 100% 100%);
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 2;
+        }
+
+        .envelope:hover .envelope-flap {
+            transform: rotateX(-20deg);
+        }
+
+        .wax-seal {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #8B0000 0%, #5C0000 100%);
+            border-radius: 50%;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #6d4c2a;
-            font-family: 'Georgia', serif;
-            text-align: center;
-            z-index: -1;
+            box-shadow: 0 5px 15px rgba(139,0,0,0.5);
+            transition: all 0.3s ease;
         }
 
-        .interactive-diamond {
+        .wax-seal:hover {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        .wax-seal::before {
+            content: '💕';
+            font-size: 1.5rem;
+            color: gold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .envelope-text {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(45deg);
-            width: 100px;
-            height: 100px;
-            background: rgba(74, 51, 25, 0.85);
-            border: 2px solid #6d4c2a;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 
-                inset 0 2px 4px rgba(255,255,255,0.1),
-                0 4px 15px rgba(0,0,0,0.5);
-            backdrop-filter: blur(2px);
-        }
-
-        .interactive-diamond:hover {
-            transform: translate(-50%, -50%) rotate(45deg) scale(1.1);
-            background: rgba(94, 71, 45, 0.9);
-            box-shadow: 
-                inset 0 2px 4px rgba(255,255,255,0.2),
-                0 6px 20px rgba(0,0,0,0.6);
-        }
-
-        .diamond-text {
-            transform: rotate(-45deg);
-            color: #f5f1e8;
-            font-family: 'Georgia', serif;
-            font-style: italic;
-            font-size: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            white-space: nowrap;
+            transform: translate(-50%, -50%);
             text-align: center;
-            font-weight: bold;
+            color: #8b7355;
+            font-style: italic;
+        }
+
+        .envelope-names {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .envelope-date {
+            font-size: 0.9rem;
         }
 
         .content-container {
@@ -448,18 +461,14 @@
         }
 
         @media (max-width: 600px) {
-            .marauders-map {
-                width: 350px;
-                height: 262px;
+            .envelope {
+                width: 250px;
+                height: 166px;
             }
 
-            .interactive-diamond {
-                width: 80px;
-                height: 80px;
-            }
-
-            .diamond-text {
-                font-size: 0.85rem;
+            .envelope-flap {
+                width: 250px;
+                height: 125px;
             }
 
             .names {
@@ -487,18 +496,17 @@
     </style>
 </head>
 <body>
-    <!-- Marauder's Map -->
+    <!-- Envelope -->
     <div class="envelope-container" id="envelopeContainer">
-        <div class="marauders-map">
-            <div class="marauders-map-fallback">
-                <div>
-                    <strong>Obraz mapy się ładuje...</strong><br>
-                    <small>Upewnij się, że plik 'intro.png' jest w folderze</small>
+        <div class="envelope">
+            <div class="envelope-base">
+                <div class="envelope-text">
+                    <div class="envelope-names">Paulina & Bartek</div>
+                    <div class="envelope-date">20 września 2025</div>
                 </div>
             </div>
-            <div class="interactive-diamond" id="diamond">
-                <div class="diamond-text">Bawmy się</div>
-            </div>
+            <div class="envelope-flap"></div>
+            <div class="wax-seal"></div>
         </div>
     </div>
 
@@ -618,7 +626,7 @@
     </div>
 
     <script>
-        // Map/envelope animation
+        // Envelope animation
         const envelopeContainer = document.getElementById('envelopeContainer');
         const contentContainer = document.getElementById('contentContainer');
 

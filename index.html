@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paulina & Bartek - 20 września 2025</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Wesele Pauliny i Bartka - 20 września 2025</title>
     <style>
         * {
             margin: 0;
@@ -14,153 +13,59 @@
 
         body {
             font-family: 'Georgia', serif;
+            background: url('Background.png') no-repeat center center fixed;
+            background-size: cover;
             min-height: 100vh;
             color: #2c3e50;
-            overflow-x: hidden;
-            background-color: #ffffff;
+            position: relative;
         }
 
-        .intro-container {
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('./Intro.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #f0f0f0;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .intro-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.3);
-            z-index: -1;
-        }
-
-        .intro-overlay-text {
-            font-size: 2rem;
-            color: #2c5530;
-            font-style: italic;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-
-        .intro-container.hidden {
-            opacity: 0;
+            background: rgba(245, 241, 232, 0.1);
             pointer-events: none;
-            visibility: hidden;
-        }
-
-        .intro-button {
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
-            border: 2px solid #8b7355;
-            border-radius: 25px;
-            color: #2c5530;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            animation: fadeInButton 1.5s ease-in-out;
-        }
-
-        .intro-button:hover {
-            transform: scale(1.05);
-            background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
-        }
-
-        @keyframes fadeInButton {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .content-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('./Background.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-color: #f5f1e8;
-            opacity: 0;
-            transform: scale(0.8) translateY(50px);
-            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            overflow-y: auto;
-            z-index: 50;
-            padding: 20px;
-        }
-
-        .content-container.visible {
-            opacity: 1;
-            transform: scale(1) translateY(0);
+            z-index: -1;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
+            padding: 20px;
             position: relative;
-            z-index: 10;
-            background: rgba(255,255,255,0.9);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            margin-top: 20px;
-            margin-bottom: 20px;
         }
 
         .header {
             text-align: center;
             margin-bottom: 40px;
             animation: fadeInUp 1s ease-out;
+            position: relative;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(68, 117, 92, 0.2);
         }
 
-        .names {
-            font-size: 2.8rem;
+        .main-title {
+            font-size: 3rem;
             color: #2c5530;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-weight: bold;
+            letter-spacing: 2px;
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.8rem;
             color: #5a6c57;
             font-style: italic;
             margin-bottom: 30px;
-        }
-
-        .reminder-text {
-            font-size: 1.1rem;
-            color: #34495e;
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 10px;
-            backdrop-filter: blur(5px);
+            font-weight: bold;
         }
 
         .info-grid {
@@ -175,18 +80,14 @@
             padding: 30px;
             border-radius: 15px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            border: 1px solid rgba(68, 117, 92, 0.2);
+            box-shadow: 
+                0 8px 32px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.4);
             animation: fadeInUp 1s ease-out;
-        }
-
-        .info-card:nth-child(1) {
-            animation-delay: 0.2s;
-        }
-
-        .info-card:nth-child(2) {
-            animation-delay: 0.4s;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .info-card:hover {
@@ -219,6 +120,13 @@
             font-size: 1.1rem;
         }
 
+        .heart-note {
+            margin-top: 15px;
+            font-style: italic;
+            color: #5a6c57;
+            font-size: 0.95rem;
+        }
+
         .map-button {
             display: inline-block;
             background: #2c5530;
@@ -242,7 +150,8 @@
             border-radius: 15px;
             margin-bottom: 30px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 2px solid rgba(68, 117, 92, 0.2);
+            position: relative;
         }
 
         .parking-title {
@@ -252,91 +161,40 @@
             margin-bottom: 20px;
             border-bottom: 2px solid #5a6c57;
             padding-bottom: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .expand-icon {
-            transition: transform 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .parking-title.expanded .expand-icon {
-            transform: rotate(180deg);
         }
 
         .parking-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .parking-content.expanded {
-            max-height: 2000px;
-        }
-
-        .parking-steps {
-            list-style: none;
-            counter-reset: step-counter;
-            margin-top: 20px;
-        }
-
-        .parking-steps li {
-            counter-increment: step-counter;
-            margin-bottom: 15px;
-            padding: 15px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 8px;
-            position: relative;
-            padding-left: 60px;
-        }
-
-        .parking-steps li::before {
-            content: counter(step-counter);
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #2c5530;
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .photos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .photo-item {
-            background: rgba(255,255,255,0.6);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .photo-placeholder {
-            width: 100%;
-            height: 150px;
-            background: linear-gradient(45deg, #e8dcc0, #d4c4a0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #8b7355;
-            font-size: 0.9rem;
             text-align: center;
-            padding: 10px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            color: #34495e;
+        }
+
+        .parking-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .parking-image {
+            text-align: center;
+        }
+
+        .parking-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 2px solid rgba(68, 117, 92, 0.3);
+        }
+
+        .image-caption {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #5a6c57;
+            font-style: italic;
         }
 
         .contact-section {
@@ -366,54 +224,21 @@
             color: #34495e;
         }
 
-        .countdown {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            background: rgba(44, 85, 48, 0.1);
-            border-radius: 15px;
-            border: 2px solid rgba(44, 85, 48, 0.2);
-        }
-
-        .countdown-title {
-            font-size: 1.3rem;
-            color: #2c5530;
-            margin-bottom: 15px;
-        }
-
-        .countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .time-unit {
-            text-align: center;
-            background: rgba(255,255,255,0.5);
-            padding: 15px;
-            border-radius: 10px;
-            min-width: 80px;
-        }
-
-        .time-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #2c5530;
-            display: block;
-        }
-
-        .time-label {
-            font-size: 0.9rem;
-            color: #5a6c57;
-            text-transform: uppercase;
-        }
-
         .footer {
             text-align: center;
-            padding: 20px;
-            color: #5a6c57;
-            font-style: italic;
+            padding: 30px;
+            color: #2c5530;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: rgba(255,255,255,0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(68, 117, 92, 0.2);
+        }
+
+        .footer-icon {
+            font-size: 2rem;
+            margin-left: 10px;
         }
 
         @keyframes fadeInUp {
@@ -428,202 +253,90 @@
         }
 
         @media (max-width: 600px) {
-            .names {
+            .main-title {
                 font-size: 2.2rem;
             }
             
             .container {
-                padding: 20px;
-                margin: 10px;
+                padding: 15px;
             }
             
             .info-grid {
                 grid-template-columns: 1fr;
             }
 
-            .countdown-timer {
-                gap: 10px;
-            }
-
-            .time-unit {
-                min-width: 70px;
-                padding: 10px;
-            }
-
-            .intro-button {
-                padding: 12px 24px;
-                font-size: 1rem;
-            }
-
-            .intro-overlay-text {
-                font-size: 1.5rem;
+            .parking-images {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="intro-container" id="introContainer">
-        <div class="intro-overlay-text">Zaproszenie na ślub</div>
-        <button class="intro-button" id="introButton">Otwórz zaproszenie</button>
-    </div>
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">Wesele Pauliny i Bartka</h1>
+            <p class="subtitle">To już w sobotę!</p>
+        </div>
 
-    <div class="content-container" id="contentContainer">
-        <div class="container">
-            <div class="header">
-                <h1 class="names">Paulina & Bartek</h1>
-                <p class="subtitle">serdecznie zapraszają na swój ślub i wesele</p>
-            </div>
-
-            <div class="reminder-text">
-                <strong>Przypomnienie:</strong> Za tydzień świętujemy razem ten wyjątkowy dzień! 💕
-            </div>
-
-            <div class="countdown">
-                <div class="countdown-title">Do ślubu pozostało:</div>
-                <div class="countdown-timer" id="countdown">
-                    <div class="time-unit">
-                        <span class="time-number" id="days">7</span>
-                        <span class="time-label">dni</span>
-                    </div>
-                    <div class="time-unit">
-                        <span class="time-number" id="hours">0</span>
-                        <span class="time-label">godzin</span>
-                    </div>
-                    <div class="time-unit">
-                        <span class="time-number" id="minutes">0</span>
-                        <span class="time-label">minut</span>
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="card-icon">📅</div>
+                <h3 class="card-title">Data i godzina</h3>
+                <div class="card-content">
+                    <p class="highlight">20 września 2025</p>
+                    <p class="highlight">godz. 15:00</p>
+                    <div class="heart-note">
+                        Prosimy o przybycie 15 minut wcześniej,<br>
+                        aby nie zaburzyć ceremonii ❤️
                     </div>
                 </div>
             </div>
 
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
-                    <h3 class="card-title">Data i godzina</h3>
-                    <div class="card-content">
-                        <p class="highlight">20 września 2025</p>
-                        <p class="highlight">godz. 15:00</p>
-                        <p style="margin-top: 10px; font-size: 0.9rem;">Sobota</p>
-                    </div>
+            <div class="info-card">
+                <div class="card-icon">🏰</div>
+                <h3 class="card-title">Miejsce</h3>
+                <div class="card-content">
+                    <p class="highlight">Hotel Pałac</p>
+                    <p class="highlight">w Myślęcinku</p>
+                    <a href="https://maps.google.com/?q=Hotel+Pałac+Myślęcinek" target="_blank" class="map-button">
+                        📍 Otwórz w Google Maps
+                    </a>
                 </div>
-
-                <div class="info-card">
-                    <div class="card-icon"><i class="fas fa-map-marker-alt"></i></div>
-                    <h3 class="card-title">Miejsce</h3>
-                    <div class="card-content">
-                        <p class="highlight">Hotel Pałac</p>
-                        <p class="highlight">w Myślęcinku</p>
-                        <a href="https://maps.google.com/?q=Hotel+Pałac+Myślęcinek" target="_blank" class="map-button">
-                            <i class="fas fa-map-marked-alt"></i> Otwórz w Google Maps
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="parking-section">
-                <h3 class="parking-title" id="parkingTitle">
-                    <i class="fas fa-car"></i> Wskazówki dojazdu i parkowania
-                    <span class="expand-icon">▼</span>
-                </h3>
-                <div class="parking-content" id="parkingContent">
-                    <ol class="parking-steps">
-                        <li><strong>Dojazd:</strong> Kieruj się do Myślęcinka, następnie szukaj oznakowania Hotel Pałac</li>
-                        <li><strong>Skrzyżowanie:</strong> Na głównym skrzyżowaniu (jak na zdjęciu) skręć zgodnie ze znakami do hotelu</li>
-                        <li><strong>Parking:</strong> Parking hotelowy znajduje się bezpośrednio przy wjeździe do kompleksu</li>
-                        <li><strong>Miejsca:</strong> Dostępnych jest wystarczająco miejsc parkingowych dla wszystkich gości</li>
-                        <li><strong>Koszt:</strong> Parking bezpłatny dla gości weselnych</li>
-                    </ol>
-
-                    <div class="photos-grid">
-                        <div class="photo-item">
-                            <div class="photo-placeholder">
-                                📸 Zdjęcie skrzyżowania<br>
-                                (miejsce na zdjęcie wskazujące właściwy kierunek)
-                            </div>
-                        </div>
-                        <div class="photo-item">
-                            <div class="photo-placeholder">
-                                📸 Wjazd do hotelu<br>
-                                (zdjęcie bramy wjazdowej)
-                            </div>
-                        </div>
-                        <div class="photo-item">
-                            <div class="photo-placeholder">
-                                📸 Parking<br>
-                                (zdjęcie miejsca parkingowego)
-                            </div>
-                        </div>
-                        <div class="photo-item">
-                            <div class="photo-placeholder">
-                                📸 Wejście do hotelu<br>
-                                (zdjęcie głównego wejścia)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="contact-section">
-                <div class="contact-card">
-                    <div class="contact-name">Paulina</div>
-                    <div class="contact-phone">695 041 876</div>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-name">Bartek</div>
-                    <div class="contact-phone">788 816 927</div>
-                </div>
-            </div>
-
-            <div class="footer">
-                Nie możemy się doczekać świętowania razem z Wami! ❤️<br>
-                <em>Paulina & Bartek</em>
             </div>
         </div>
+
+        <div class="parking-section">
+            <h3 class="parking-title">🚗 Wskazówki dojazdu</h3>
+            <div class="parking-content">
+                Jadąc ulicą Gdańską, przy Gościncu Soplica, należy skręcić w ulicę Konną. 
+                Wjazd na bezpłatny parking dla gości Pałacu znajduje się w zaznaczonym miejscu.
+            </div>
+            <div class="parking-images">
+                <div class="parking-image">
+                    <img src="Dojazd.png" alt="Wskazówki dojazdu do Pałacu">
+                    <div class="image-caption">Dojazd do Pałacu</div>
+                </div>
+                <div class="parking-image">
+                    <img src="Wjazd.png" alt="Miejsce wjazdu na parking">
+                    <div class="image-caption">Wjazd na parking</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <div class="contact-card">
+                <div class="contact-name">Paulina</div>
+                <div class="contact-phone">695 041 876</div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-name">Bartek</div>
+                <div class="contact-phone">788 816 927</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Do zobaczenia! <span class="footer-icon">🥂</span>
+        </div>
     </div>
-
-    <script>
-        const introContainer = document.getElementById('introContainer');
-        const introButton = document.getElementById('introButton');
-        const contentContainer = document.getElementById('contentContainer');
-
-        introButton.addEventListener('click', function() {
-            console.log('Przycisk kliknięty – ukrywam intro');
-            introContainer.classList.add('hidden');
-            
-            setTimeout(() => {
-                console.log('Pokazuję treść');
-                contentContainer.classList.add('visible');
-            }, 800);
-        });
-
-        const parkingTitle = document.getElementById('parkingTitle');
-        const parkingContent = document.getElementById('parkingContent');
-
-        parkingTitle.addEventListener('click', function() {
-            parkingTitle.classList.toggle('expanded');
-            parkingContent.classList.toggle('expanded');
-        });
-
-        function updateCountdown() {
-            const weddingDate = new Date('2025-09-20T15:00:00').getTime();
-            const now = new Date().getTime();
-            const distance = weddingDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-            document.getElementById('days').innerHTML = days;
-            document.getElementById('hours').innerHTML = hours;
-            document.getElementById('minutes').innerHTML = minutes;
-
-            if (distance < 0) {
-                document.getElementById('countdown').innerHTML = "🎉 Dziś jest ten dzień! 🎉";
-            }
-        }
-
-        updateCountdown();
-        setInterval(updateCountdown, 60000);
-    </script>
 </body>
 </html>

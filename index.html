@@ -241,6 +241,42 @@
             margin-left: 10px;
         }
 
+        .countdown-mini {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(44, 85, 48, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(44, 85, 48, 0.2);
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .time-unit {
+            text-align: center;
+            background: rgba(255,255,255,0.5);
+            padding: 10px;
+            border-radius: 8px;
+            min-width: 60px;
+        }
+
+        .time-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c5530;
+            display: block;
+        }
+
+        .time-label {
+            font-size: 0.8rem;
+            color: #5a6c57;
+            text-transform: uppercase;
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -280,11 +316,29 @@
 
         <div class="info-grid">
             <div class="info-card">
-                <div class="card-icon">📅</div>
+                <div class="card-icon">⏰</div>
                 <h3 class="card-title">Data i godzina</h3>
                 <div class="card-content">
                     <p class="highlight">20 września 2025</p>
                     <p class="highlight">godz. 15:00</p>
+                    
+                    <div class="countdown-mini">
+                        <div class="countdown-timer" id="countdown">
+                            <div class="time-unit">
+                                <span class="time-number" id="days">3</span>
+                                <span class="time-label">dni</span>
+                            </div>
+                            <div class="time-unit">
+                                <span class="time-number" id="hours">0</span>
+                                <span class="time-label">godz.</span>
+                            </div>
+                            <div class="time-unit">
+                                <span class="time-number" id="minutes">0</span>
+                                <span class="time-label">min.</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="heart-note">
                         Prosimy o przybycie 15 minut wcześniej,<br>
                         aby nie zaburzyć ceremonii ❤️
@@ -308,7 +362,7 @@
         <div class="parking-section">
             <h3 class="parking-title">🚗 Wskazówki dojazdu</h3>
             <div class="parking-content">
-                Jadąc ulicą Gdańską, przy Gościncu Soplica, należy skręcić w ulicę Konną. 
+                Przy Gościncu Soplica należy skręcić w ulicę Konno. 
                 Wjazd na bezpłatny parking dla gości Pałacu znajduje się w zaznaczonym miejscu.
             </div>
             <div class="parking-images">
@@ -338,5 +392,29 @@
             Do zobaczenia! <span class="footer-icon">🥂</span>
         </div>
     </div>
+
+    <script>
+        // Countdown timer
+        function updateCountdown() {
+            const weddingDate = new Date('2025-09-20T15:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('days').innerHTML = days;
+            document.getElementById('hours').innerHTML = hours;
+            document.getElementById('minutes').innerHTML = minutes;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = "🎉 Dziś jest ten dzień! 🎉";
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // Update every minute
+    </script>
 </body>
 </html>
